@@ -18,3 +18,25 @@ samtools fasta ~/Documents/chr22.bam > ~/Documents/chr22.fa
 #fasta file needed as reference for orthofinder. 
 #could use human, but slightly less accurate for what is needed (ie creation of proteome files using vcf2prot tool)
 #vcf2prot tool is on bioRxiv
+
+#TROUBLE-SHOOTING ALREADY DONE:
+        #using downloaded .bam files and created .bam from .bed files - both produced the same 0byte file, downloaded .bam had missing eof markers
+        #unzipping and recompressing files using bgzip and tabix-ing them
+        #using uncompressed files
+        #.py file to add eof markers to end of downloaded .bam file 
+                #the .py script doesn't recognise the downloaded .bam files as .bam files
+        #using different toolkits - bedtools, samtools, homegrown ones found on stackoverflow
+        #/tmp/ overflow corrected with deletion and restarting to clear directory
+
+#POTENTIAL ISSUES
+        #.bam files used here are chr by chr. perhaps this is an issue because samtools expects whole genome
+                #SOLUTION: compress all .bam chr files into one
+        #mislabelling on one of the columns between reference fasta file (GR38) - i.e. chr22 and 22 
+                #SOLUTION:change labelling on .bam files or .bed files
+        #using incorrect reference fasta for the creation of homegrown .bam files
+                #SOLUTION:use the correct one (GR37?)
+        #something is still wrong with my /tmp/ file      
+                #SOLUTION: increase size of linux partition on pc
+        #samtools expects the .bam / .bed files to have different headers
+                #SOLUTION: change the headers to what toolkit expects (BUT HOW?)
+               
