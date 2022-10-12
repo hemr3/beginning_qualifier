@@ -1,0 +1,6 @@
+### in the terminal 
+
+awk -F awk -F '\t' '(S0 ~ /^#/ || $5!=".")' input.vcf > output.vcf
+
+#this seems to remove large numbers of bits from the VCF files - from what I see this removes all the 
+#empties - have tested, seems to work. 
