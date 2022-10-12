@@ -1,0 +1,20 @@
+## on the terminal - had problems with missing eof markers at end of downloaded bam files -
+## from site: http://ftp.eva.mpg.de/neandertal/Chagyrskaya/
+## tried with another individual (Vi33), also didn't work. Something with my code - don't know what
+## adding eof markers did not allow the conversion (see addeof.py script in repository)
+
+bedtools bedtobam -i ~/Documents/namedchr22.bed -g GRCh38_full_analysis_set_plus_decoy_hla.fa.fai > ~/Documents/chr22.bam
+        #using human genome as alignment - N + H = almost 1:1 comparison
+        #this command completes without issue 
+        
+#then tried the samtools fasta conversion
+
+samtools fasta ~/Documents/chr22.bam > ~/Documents/chr22.fa
+       #no errors occur (no eof marker error), but the output is a file with 0bytes
+[M::bam2fq_mainloop] discarded 0 singletons
+[M::bam2fq_mainloop] processed 0 reads
+
+
+#fasta file needed as reference for orthofinder. 
+#could use human, but slightly less accurate for what is needed (ie creation of proteome files using vcf2prot tool)
+#vcf2prot tool is on bioRxiv
