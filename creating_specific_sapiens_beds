@@ -1,0 +1,36 @@
+wget ftp://ftp.sanger.ac.uk/pub/gencode/release_15/gencode.v15.annotation.gtf.gz
+  #get the gencode gtf file which includes gene names
+
+gunzip ~/Downloads/gencode.v41.annotation.gtf.gz 
+  #unzip the file
+
+gtf2bed < ~/Downloads/gencode.v41.annotation.gtf > ~/Downloads/gencode.bed
+  #easy way to convert between gtf and bed formats using bedops
+
+grep "exon" ~/Downloads/gencode.bed > ~/Downloads/gencode.exons.bed
+  #only find the exons - can be usd for any specific thing in files
+
+awk '{print $1,$2,$3,$17}' ~/Downloads/gencode.exons.bed > ~/Downloads/cut_gencode_exons.bed
+  #for the bed file - only includes chr, start, stop, gene name
+
+grep "chr3" ~/Downloads/cut_gencode_exons.bed > ~/Downloads/chr3_cut_gencode_exons.bed
+  #choosing a specific chromosome - skip step if whole genome needed
+
+awk '{$1=3 ; print ;}' ~/Documents/sapiens_files/chr3_cut_gencode_exons.bed > ~/Documents/sapiens_files/3_cut_gencoes_exons.bed
+  #changing the 'chr3' to '3' to match other bedfiles. technically it is either or but can create confusion with 'chr'
+  #h/ever this creates a file that is space delimited and bedfiles technically need to be TAB DELIMITED
+  
+awk -v OFS='\t' '{$1=$1}1' ~/Documents/sapiens_files/3_cut_gencodes_exons.bed > ~/Documents/sapiens_files/tab_3_cut_gencodes_exons.bed
+  #this changes the space delimited file to a tab delimited one
+  
+bedtools sort -i ~/Documents/sapiens_files/tab_3_cut_gencodes_exons.bed > sorted_tab_3_cut_gencodes_exons.bed
+  #make sure that all bedfiles are sorted before you begin messing with them. if not will definitely create issues down the line
+  #also make sure that all are decompressed! otherwise issues ensue
+  
+
+#using all of this, you can intersect two bedfiles to see where the same genes are - which is what i did with
+#the chag files and this complete human one: 
+
+bedmap --echo --echo-map-id-uniq ~/Documents/chag_beds/chr3_mask.bed ~/Documents/sapiens_files/sorted_tab_3_cut_gencodes_exons.bed > ~/collated.bed 
+  #think this tool comes from the bedops kit
+  
