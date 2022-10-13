@@ -39,4 +39,5 @@ samtools fasta ~/Documents/chr22.bam > ~/Documents/chr22.fa
                 #SOLUTION: increase size of linux partition on pc
         #samtools expects the .bam / .bed files to have different headers
                 #SOLUTION: change the headers to what toolkit expects (BUT HOW?)
-               
+        #creation of N fasta files may not be necessary to create the proteome 
+                #SOLUTION: use the human one to the vcf2prot tool and see if it works 
