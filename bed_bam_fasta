@@ -41,3 +41,10 @@ samtools fasta ~/Documents/chr22.bam > ~/Documents/chr22.fa
                 #SOLUTION: change the headers to what toolkit expects (BUT HOW?)
         #creation of N fasta files may not be necessary to create the proteome 
                 #SOLUTION: use the human one to the vcf2prot tool and see if it works 
+
+
+##############################
+samtools fasta ~/Documents/Vi33.19.chr22.indel_realn.bam > ~/Documents/Vin22.fa
+        #annoyingly,works with Vi33 chr22 file, for some godforsaken reason. but unsure whether it creates the 
+        #correct files - will need to ask
+        # website is currently down - can't test it with any of the other types of chag .bam file r/n
