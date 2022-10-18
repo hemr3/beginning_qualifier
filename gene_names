@@ -10,3 +10,4 @@ awk '{print $2}' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > ~/Docume
 #remove duplicates
 awk '!x[$0]++' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > only_names_chag3.txt
 
+j
