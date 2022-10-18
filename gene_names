@@ -1,0 +1,12 @@
+#bed files created in __________ have a | delimiter, not tab
+#of course, i could fix this earlier in my code, but honestly its the same steps
+
+#this does not work really well for literally anything else, so it must be converted:
+sed 's/|/\t/g' ~/Documents/gene_bed_files_chag/gene_names_chag3.txt > ~/Documents/gene_bed_files_chag/only_names_chag3.txt
+
+#then remove the stop position
+awk '{print $2}' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > ~/Documents/gene_bed_files_chag/only_names_chag3.txt
+
+#remove duplicates
+awk '!x[$0]++' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > only_names_chag3.txt
+
