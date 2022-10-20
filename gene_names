@@ -10,4 +10,12 @@ awk '{print $2}' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > ~/Docume
 #remove duplicates
 awk '!x[$0]++' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > only_names_chag3.txt
 
-j
+#remove lines that have more than one gene name on them (without removing Ensembl gene lines)
+awk 'length<19' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > ~/Documents/gene_bed_files_chag/try2_only_names.txt
+
+#remove the semicolon and the quote marks:
+cat ~/Documents/gene_bed_files_chag/try2_only_names.txt | tr -d '"' | tr -d ';' > only_names.txt
+
+#take only Ensembl gene lines to convert:
+cat ~/Documents/gene_bed_files_chag/only_names_chag3.txt | grep '^EN' > ~/Documents/gene_bed_files_chag/ensembl_chag3.txt
+
