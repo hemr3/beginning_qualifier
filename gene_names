@@ -19,3 +19,9 @@ cat ~/Documents/gene_bed_files_chag/try2_only_names.txt | tr -d '"' | tr -d ';' 
 #take only Ensembl gene lines to convert:
 cat ~/Documents/gene_bed_files_chag/only_names_chag3.txt | grep '^EN' > ~/Documents/gene_bed_files_chag/ensembl_chag3.txt
 
+
+#for specific genes - you first need to create a bed file with the format chrom number  start stop for that particular gene
+#this can be found by looking on the .bed files made and essentially just copying/grepping them into a new file 
+#once done, use the VCFs and this new .bed file to create a new VCF with only these gene positions in:
+vcftools --gzvcf ~/Documents/chag_vcfs/chr3.noRB.vcf.gz --bed ~/Documents/traip.bed --out ~/Documents/traip_chr3_chag --recode --keep-INFO-all
+
