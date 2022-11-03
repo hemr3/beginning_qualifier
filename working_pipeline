@@ -1,0 +1,55 @@
+#creating specific sapiens files for per chr reference
+#chr3 listed here, but can be whatever chr your heart (or research) desires
+
+grep "chr3" ~/Downloads/cut_gencode_exons.bed > ~/Downloads/chr3_cut_gencode_exons.bed
+
+
+awk '{$1=3 ; print ;}' ~/Documents/sapiens_files/chr3_cut_gencode_exons.bed > ~/Documents/sapiens_files/3_cut_gencoes_exons.bed
+  #changing the 'chr3' to '3' to match other bedfiles. technically it is either or but can   create confusion with 'chr'
+  #h/ever this creates a file that is space delimited and bedfiles technically need to be TAB DELIMITED
+  
+
+awk -v OFS='\t' '{$1=$1}1' ~/Documents/sapiens_files/3_cut_gencodes_exons.bed > ~/Documents/sapiens_files/tab_3_cut_gencodes_exons.bed
+  #this changes the space delimited file to a tab delimited one
+  
+
+bedtools sort -i ~/Documents/sapiens_files/tab_3_cut_gencodes_exons.bed > sorted_tab_3_cut_gencodes_exons.bed
+  #make sure that all bedfiles are sorted before you begin messing with them. if not will definitely create issues down the line
+  #also make sure that all are decompressed! otherwise issues ensue
+  #bedtools toolkit
+  
+bedmap --echo --echo-map-id-uniq ~/Documents/chag_beds/chr3_mask.bed ~/Documents/sapiens_files/sorted_tab_3_cut_gencodes_exons.bed > ~/collated.bed 
+#using all of this, you can intersect two bedfiles to see where the same genes are - which is what i did with
+#the chag files and this complete human one
+#bedops toolkit
+
+
+
+#creating working bed files with the gene names for the neanderthal chr
+
+#bed files created in __________ have a | delimiter, not tab
+#of course, i could fix this earlier in my code, but honestly its the same steps
+
+#this does not work really well for literally anything else, so it must be converted:
+sed 's/|/\t/g' ~/Documents/gene_bed_files_chag/gene_names_chag3.txt > ~/Documents/gene_bed_files_chag/only_names_chag3.txt
+
+#then remove the stop position
+awk '{print $2}' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > ~/Documents/gene_bed_files_chag/only_names_chag3.txt
+
+#remove duplicates
+awk '!x[$0]++' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > only_names_chag3.txt
+
+#remove lines that have more than one gene name on them (without removing Ensembl gene lines)
+awk 'length<19' ~/Documents/gene_bed_files_chag/only_names_chag3.txt > ~/Documents/gene_bed_files_chag/try2_only_names.txt
+
+#remove the semicolon and the quote marks:
+cat ~/Documents/gene_bed_files_chag/try2_only_names.txt | tr -d '"' | tr -d ';' > only_names.txt
+
+#take only Ensembl gene lines to convert:
+cat ~/Documents/gene_bed_files_chag/only_names_chag3.txt | grep '^EN' > ~/Documents/gene_bed_files_chag/ensembl_chag3.txt
+
+
+#for specific genes - you first need to create a bed file with the format chrom number  start stop for that particular gene
+#this can be found by looking on the .bed files made and essentially just copying/grepping them into a new file 
+#once done, use the VCFs and this new .bed file to create a new VCF with only these gene positions in:
+vcftools --gzvcf ~/Documents/chag_vcfs/chr3.noRB.vcf.gz --bed ~/Documents/traip.bed --out ~/Documents/traip_chr3_chag --recode --keep-INFO-all
