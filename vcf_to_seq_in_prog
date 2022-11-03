@@ -1,0 +1,15 @@
+conda activate py-popgen
+  #activating the popgen enviro for vcf_to_seq py script
+  #you have to be in ~/PPP for this work to tho, i think
+
+model_creator.py --model 1Pop --model-pop 1Pop Neanderthal --pop-ind Neanderthal Chagyrskaya-Phalanx
+  #use the script in this environ to create a model for the script. 
+  #for one indi, there is no tree, causing a warning. also a warning for version (thnik i can ignore)
+
+
+sed -i 's/chromosome 3/chromosome3/g' ~/Documents/traip_chr3_chag.recode.vcf 
+
+
+vcf_bed_to_seq.py --vcf ~/Documents/neanderthal/chag/chag_vcfs/specific_gene_vcfs/traip_chr3_chag.recode.vcf --model-file ~/PPP/out.model --modelname 1Pop --fasta-reference ~/Documents/GRCh37.p13.genome.fa.gz --region 3:49828647-49848193
+  #raises a keyerror. whatever the name of the chromosome is: sequence 'chromosome3' not present'
+  #i think this would be v useful if i could get it to work. 
