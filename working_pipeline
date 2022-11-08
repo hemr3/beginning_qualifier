@@ -60,5 +60,6 @@ vcftools --gzvcf ~/Documents/chag_vcfs/chr3.noRB.vcf.gz --bed ~/Documents/traip.
 awk '{print $1,$2,$3,$4,$5}' ~specific_gene_vcfs/foxp1_chr3_chag.vcf > ~/specific_gene_vcfs/foxp1_first5.txt
 #this removes all but necessary columns from file needed for SeqTailor. have to manually delete the top bit though
         #worked for TRAIP - not foxp1, try with another, see if fluke. 
-
+        #changed to GR38 for GMBE1, and it worked, why, I have no idea. it doesn't work for any of the other ones ive made (foxp1, coa6)
+        #try with others - some may work, and others might not. discuss. 
 
