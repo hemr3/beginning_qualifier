@@ -63,3 +63,8 @@ awk '{print $1,$2,$3,$4,$5}' ~specific_gene_vcfs/foxp1_chr3_chag.vcf > ~/specifi
         #changed to GR38 for GMBE1, and it worked, why, I have no idea. it doesn't work for any of the other ones ive made (foxp1, coa6)
         #try with others - some may work, and others might not. discuss. 
 
+###getting the upstream bases - have selected the first 500 - but may need more or less depending
+zcat ~/Documents/neanderthal/chag/chag_vcfs/chr9.noRB.vcf.gz | awk '$1 == 9 && $2 >= 28684889 && $2 <= 28684889' > ~/Documents/neanderthal/chag/chag_vcfs/specific_gene_vcfs/upstream_gmbe1.vcf
+
+
+
