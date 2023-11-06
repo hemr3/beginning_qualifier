@@ -1,0 +1,72 @@
+	#code for converting bam files into NEANDERTHAL GENOME fasta files
+	#uses samtools toolkit
+	#the samtools fasta -f 4 command DOES NOT WORK
+	
+
+
+#found something that works!! 
+# 1 -> slice out the region you want from the .bam file. 
+# 2 -> take this gene.bam and then use samtools consensus to get the FASTA file
+
+	#"chrnumber:gene_start-gene_end"
+	#this is for the entire gene (consensus sequence, though), so its all the isoforms. 
+samtools view chr22.rh.bam -h "22:20017023-20067164" > out.bam
+	#when overlooking code - the -h flag may not be entirely necessary - doesn't seem to add much?
+
+
+	#this does not give all of the headers of a normal FASTA file, but does give the sequence and chr identifier
+samtools consensus -f fasta gene.bam > gene.fa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+samtools view ~/Research/Data/neanderthal_data/chag/chag_bams/chr22.rh.bam | awk -v OFS=':' '{print ">"$3":"$name}' > try.bam
+
+samtools bam2fq chr22.rh.bam > chag.22.fq #do this FIRST - then convert from fq to fa, then try adding in the 22 in the code described above
+
+	
+	#fastq to fasta
+bioawk -c fastx '{print ">"$22"\n"$seq}' chag.22.fq > chag.22.fa
+
+
+#try this next: 
+https://bioinformatics.stackexchange.com/questions/15168/how-to-generate-a-consensus-sequence-from-a-multi-reference-bam-file
+#look at ur biostar thingy
+https://www.biostars.org/p/9560430/#9560442
+
+samtools view ~/Research/Data/neanderthal_data/chag/chag_bams/chr22.rh.bam "22:20017023-20067164" > out.bam
+
+
+samtools consensus -f fasta ~/Research/Data/neanderthal_data/chag/chag_bams/chr22.rh.bam
+
