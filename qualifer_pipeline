@@ -1,0 +1,21 @@
+  #converting .bam -> fasta -> to cluster -> running J's program -> getting the results back down
+  #this is what I've found works so far
+
+  #(1) cut out the gene you want to use. isoform can be found when needed.
+  #"chrnumber:gene_start-gene_end"
+	#this is for the entire gene (consensus sequence, though), so it's all the isoforms. 
+samtools view chr22.rh.bam -h "22:20017023-20067164" > out.bam
+
+  #(2) convert bam -> fasta. this command does not use consensus data
+samtools bam2fq gene.bam | seqtk seq -A > out.fa
+
+ssh -X hridout@login.seawulf.stonybrook.edu
+
+  #(3) upload to hpc
+scp /home/directory/gene.fa hridout@login.seawulf.stonybrook.edu:/gpfs/projects/RestGroup/helen/
+
+  #(4) run program on hpc
+/gpfs/projects/RestGroup/software/Predict_Property/Predict_Property.sh -i /gpfs/projects/RestGroup/helen/gene.fa -o /gpfs/projects/RestGroup/helen/gene_out
+
+  #(5) from the hpc to computer (on terminal)
+scp -r hridout@login.seawulf.stonybrook.edu:/gpfs/projects/RestGroup/helen/gene_out/ /directory/path/
